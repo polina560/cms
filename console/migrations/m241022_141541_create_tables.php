@@ -13,10 +13,13 @@ class m241022_141541_create_tables extends Migration
     public function safeUp()
     {
         $this->createTable('PostCategory', [
+            'id' => $this->integer(),
             'name' => $this->string()->unique(),
+            'PRIMARY KEY(id)'
 
         ]);
         $this->createTable('Post', [
+            'id' => $this->integer(),
             'user_id' => $this->integer(),
             'title' => $this->string(),
             'text' => $this->text(),
@@ -24,7 +27,9 @@ class m241022_141541_create_tables extends Migration
             'status' => $this->integer(),
             'image' => $this->string(),
             'created_at' => $this->integer(),
-            'updated_at' => $this->integer()
+            'updated_at' => $this->integer(),
+            'PRIMARY KEY(id)'
+
 
         ]);
 

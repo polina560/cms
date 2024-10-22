@@ -64,6 +64,14 @@ FontAwesomeAsset::register($this);
                     ['label' => 'Информация о хостинге', 'url' => ['/site/info']],
                 ]
             ],
+            [
+                'label' => 'Таблицы',
+                'items' => [
+                    ['label' => 'Post', 'url' => ['/setting']],
+                    ['label' => 'PostCategory', 'url' => ['/user-admin']],
+
+                ]
+            ],
             '<li class="divider-vertical"></li>',
         ];
         $menuItems[] = Html::tag(

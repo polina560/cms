@@ -36,7 +36,7 @@ class PostCategory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
+            'name' => Yii::t('app', 'Category Name'),
         ];
     }
 }

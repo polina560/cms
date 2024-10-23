@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "Post".
@@ -28,7 +29,8 @@ class Post extends \yii\db\ActiveRecord
         return 'Post';
     }
 
-    public $imageFile;
+    public UploadedFile|string|null $imageFile = null;
+
     /**
      * {@inheritdoc}
      */
@@ -38,21 +40,10 @@ class Post extends \yii\db\ActiveRecord
             [['user_id', 'post_category_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['text'], 'string'],
             [['title', 'image'], 'string', 'max' => 255],
-//            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
-
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
 
-
-    public function upload()
-    {
-        if ($this->validate()) {
-            $this->imageFile->saveAs('htdocs/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * {@inheritdoc}
@@ -60,30 +51,50 @@ class Post extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'User ID',
-            'title' => 'Title',
-            'text' => 'Text',
-            'post_category_id' => 'Post Category ID',
-            'status' => 'Status',
-            'image' => 'Image',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'title' =>  Yii::t('app', 'Title'),
+            'text' =>  Yii::t('app', 'Text'),
+            'post_category_id' => Yii::t('app', 'Post Category ID'),
+            'status' => Yii::t('app', 'Status'),
+            'image' => Yii::t('app', 'Image'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    public function beforeValidate(): bool
+    {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        return parent::beforeValidate();
+    }
+
+    public function beforeSave($insert): bool
+    {
+        if ($this->imageFile instanceof UploadedFile) {
+            if (!$insert && !empty($this->image)) {
+                // удалить старую
+                $public = Yii::getAlias('@public');
+                $oldImagePath = $public . $this->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath); // удаление файла
+                }
+            }
+            $randomName = Yii::$app->security->generateRandomString(8);
+            $public = Yii::getAlias('@public');
+            $path = '/uploads/' . $randomName . '.'. $this->imageFile->extension;
+            $this->imageFile->saveAs($public . $path);
+            $this->image = $path;
+        }
+        return parent::beforeSave($insert);
     }
 
     public function behaviors()
     {
         return [
-            [
-                'class' => TimestampBehavior::class , 'updatedAtAttribute' => false,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-//                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-                // если вместо метки времени UNIX используется datetime:
-                // 'value' => new Expression('NOW()'),
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
             ],
-
         ];
     }
 }

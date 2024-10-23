@@ -20,7 +20,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'post_category_id')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?php
+        $const = new \common\models\Status();?>
+    <?=
+        $form->field($model, 'status')->dropDownList($const->getConstants());
+    ?>
+
+<!--    --><?php //= $form->field($model, 'status')->textInput() ?>
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 <!--    --><?php //= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>

@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "Post".
@@ -26,6 +28,7 @@ class Post extends \yii\db\ActiveRecord
         return 'Post';
     }
 
+    public $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -35,7 +38,20 @@ class Post extends \yii\db\ActiveRecord
             [['user_id', 'post_category_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['text'], 'string'],
             [['title', 'image'], 'string', 'max' => 255],
+//            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+
         ];
+    }
+
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->imageFile->saveAs('htdocs/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -52,6 +68,22 @@ class Post extends \yii\db\ActiveRecord
             'image' => 'Image',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class , 'updatedAtAttribute' => false,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+//                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                // если вместо метки времени UNIX используется datetime:
+                // 'value' => new Expression('NOW()'),
+            ],
+
         ];
     }
 }

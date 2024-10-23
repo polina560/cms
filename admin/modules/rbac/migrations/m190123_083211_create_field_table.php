@@ -4,7 +4,7 @@ use yii\db\Migration;
 
 /**
  * Handles the creation of table `field`.
- * Has foreign keys to the tables:
+ * Has foreign keys to the post:
  *
  * - `model`
  */

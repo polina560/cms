@@ -18,7 +18,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'post_category_id')->textInput() ?>
+    <?php
+    $id_category = new \common\models\PostCategory();?>
+
+    <?= $form->field($model, 'post_category_id')->dropDownList($id_category->getNameArray()); ?>
+
+<!--    --><?php //= $form->field($model, 'post_category_id')->textInput() ?>
 
     <?php
         $const = new \common\models\Status();?>
@@ -31,7 +36,7 @@ use yii\widgets\ActiveForm;
 
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

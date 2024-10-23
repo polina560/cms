@@ -7,8 +7,8 @@ use yii\widgets\DetailView;
 /** @var common\models\PostCategory $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Post Categories', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' =>  Yii::t('app', 'Post Categories') , 'url' => ['index']];
+$this->params['breadcrumbs'][] =  Yii::t('app', $this->title);
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="post-category-view">

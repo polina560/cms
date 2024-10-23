@@ -10,8 +10,8 @@ use yii\grid\GridView;
 /** @var common\models\PostSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Посты';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::t('app', 'Posts') ;
+$this->params['breadcrumbs'][] = Yii::t('app', $this->title);
 ?>
 <div class="post-index">
 

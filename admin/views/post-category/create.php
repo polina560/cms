@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /** @var common\models\PostCategory $model */
 
 $this->title = 'Создание новой категории';
-$this->params['breadcrumbs'][] = ['label' => 'Post Categories', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' =>  Yii::t('app', 'Post Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', $this->title) ;
 ?>
 <div class="post-category-create">
 
@@ -18,3 +18,4 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+    `

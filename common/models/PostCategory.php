@@ -39,4 +39,13 @@ class PostCategory extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Category Name'),
         ];
     }
+
+
+    public function getNameArray()
+    {
+        $names = self::find()->select(['id', 'name'])->asArray()->all();
+
+
+        return array_column($names, 'name', 'id');
+    }
 }

@@ -60,6 +60,8 @@ class Post extends \yii\db\ActiveRecord
             'image' => Yii::t('app', 'Image'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'imageFile' => Yii::t('app', 'Image'),
+
         ];
     }
 
@@ -97,4 +99,6 @@ class Post extends \yii\db\ActiveRecord
             ],
         ];
     }
+
+
 }

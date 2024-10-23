@@ -113,7 +113,15 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        $public = Yii::getAlias('@public');
+        $oldImagePath = $public .  $model->image;
+        if (file_exists($oldImagePath)) {
+            unlink($oldImagePath); // удаление файла
+        }
+
+        $model->delete();
 
         return $this->redirect(['index']);
     }

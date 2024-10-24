@@ -53,8 +53,8 @@ class Post extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'title' =>  Yii::t('app', 'Title'),
-            'text' =>  Yii::t('app', 'Text'),
+            'title' => Yii::t('app', 'Title'),
+            'text' => Yii::t('app', 'Text'),
             'post_category_id' => Yii::t('app', 'Post Category ID'),
             'status' => Yii::t('app', 'Status'),
             'image' => Yii::t('app', 'Image'),
@@ -62,6 +62,23 @@ class Post extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'imageFile' => Yii::t('app', 'Image'),
 
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'title',
+            'text',
+            'post_category_id' => function($model) {
+                $item = \common\models\PostCategory::find()->where(['id' => $model->post_category_id])->one();
+                return $item->name;
+            },
+            'status' => function($model){
+                $item = new \common\models\Status();
+                return $item->getStatusName($model->status);
+            },
+            'image',
         ];
     }
 
@@ -84,7 +101,7 @@ class Post extends \yii\db\ActiveRecord
             }
             $randomName = Yii::$app->security->generateRandomString(8);
             $public = Yii::getAlias('@public');
-            $path = '/uploads/' . $randomName . '.'. $this->imageFile->extension;
+            $path = '/uploads/' . $randomName . '.' . $this->imageFile->extension;
             $this->imageFile->saveAs($public . $path);
             $this->image = $path;
         }
@@ -100,5 +117,12 @@ class Post extends \yii\db\ActiveRecord
         ];
     }
 
+
+
+    public function getPostCategory()
+    {
+        return $this->hasOne(PostCategory::class(),['id' => 'category_id']);
+
+    }
 
 }

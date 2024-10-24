@@ -17,7 +17,7 @@ $params = array_merge(
     require __DIR__ . '/params-local.php'
 );
 
-Utils::$ROOT_DOMAIN = $params['rootDomain'];
+Utils::$ROOT_DOMAIN = $params['rootDomain'] ?? '';
 $current_url = (new Request)->absoluteUrl;
 $htdocs_pos = strpos($current_url, '/htdocs');
 if (!$htdocs_pos) {
@@ -151,7 +151,7 @@ return [
             'thousandSeparator' => ' ',
             'currencyCode' => 'RUB',
             'dateFormat' => 'php: d/m/Y',
-            'datetimeFormat' => 'php: d/m/Y H:i',
+            'datetimeFormat' => 'DD.MM.YYYY HH:MM',
         ],
 
         'urlManager' => [
@@ -161,23 +161,28 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+//                ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+//                'post/create' => 'post/create-post',
 
-//                '<_m:[\w-]+>/error' => '<_m>/site/error',                // v1/dev-info
-//                '<_m:[\w-]+>/dev-info' => '<_m>/site/dev-info',                // v1/dev-info
-//                '<_m:[\w-]+>/<_c:[\w-]+>/<id:\d+>' => '<_m>/<_c>/index',                // v1/user/1
-//                '<_m:[\w-]+>/<_c:[\w-]+>' => '<_m>/<_c>/index',                         // v1/user
-//                '<_m:[\w-]+>/<_c:[\w-]+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',              // v1/user/login
-//                '<_m:[\w-]+>/<_c:[\w-]+>/<id:\d+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',     // v1/user/1/delete
+                '<_m:[\w-]+>/error' => '<_m>/site/error',                // v1/dev-info
+                '<_m:[\w-]+>/dev-info' => '<_m>/site/dev-info',                // v1/dev-info
+                '<_m:[\w-]+>/<_c:[\w-]+>/<id:\d+>' => '<_m>/<_c>/index',                // v1/user/1
+                '<_m:[\w-]+>/<_c:[\w-]+>' => '<_m>/<_c>/index',                         // v1/user
+                '<_m:[\w-]+>/<_c:[\w-]+>/create' => '<_m>/<_c>/create-post',
+                '<_m:[\w-]+>/<_c:[\w-]+>/update' => '<_m>/<_c>/update-post',
+                '<_m:[\w-]+>/<_c:[\w-]+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',              // v1/user/login
+                '<_m:[\w-]+>/<_c:[\w-]+>/<id:\d+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',     // v1/user/1/delete
 
-//               ['class' => 'yii\rest\UrlRule',
-//                   'controller' => [
-//                       'v1/user',
-//                       'v1/test',
-//                       'v1/post',
-//                       'v1/rbac'
-//                    ]
-//               ],
+               ['class' => 'yii\rest\UrlRule',
+                   'controller' => [
+                       'v1/user',
+                       'v1/test',
+                       'v1/post',
+                       'v1/rbac'
+                    ]
+               ],
             ],
+
         ],
 
     ],

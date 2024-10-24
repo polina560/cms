@@ -48,4 +48,5 @@ class PostCategory extends \yii\db\ActiveRecord
 
         return array_column($names, 'name', 'id');
     }
+
 }

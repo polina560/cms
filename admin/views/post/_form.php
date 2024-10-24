@@ -1,12 +1,18 @@
 <?php
 
+use vova07\imperavi\Widget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
 
 /** @var yii\web\View $this */
 /** @var common\models\Post $model */
 /** @var yii\widgets\ActiveForm $form */
+
+//Yii::import('ext.imperavi-redactor-widget.ImperaviRedactorWidget');
+//use vendor\vova07\yii2-imperavi-widget\src\Widget;
 ?>
+
 
 <div class="post-form">
 
@@ -16,7 +22,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'text')->widget(Widget::className(),  [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'plugins' => [
+                'clips',
+                'fullscreen',
+            ],
+            'clips' => [
+                ['Lorem ipsum...', 'Lorem...'],
+                ['red', '<span class="label-red">red</span>'],
+                ['green', '<span class="label-green">green</span>'],
+                ['blue', '<span class="label-blue">blue</span>'],
+            ],
+        ],
+    ]) ?>
+<!--    --><?php //= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
     <?php
     $id_category = new \common\models\PostCategory();?>

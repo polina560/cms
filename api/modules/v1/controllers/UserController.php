@@ -11,6 +11,7 @@ use yii\web\Response;
 
 class UserController extends AppController
 {
+    public $modelClass = User::class;
 
     public function behaviors(): array
     {

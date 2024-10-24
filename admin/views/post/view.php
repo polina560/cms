@@ -1,5 +1,6 @@
 <?php
 
+use common\models\AsDateValidator;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -27,17 +28,36 @@ $this->params['breadcrumbs'][] = Yii::t('app', $this->title);
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model' =>  $model,
+
         'attributes' => [
             'id',
-            'user_id',
+            [
+                'attribute'=>'user_id',
+                'value'=>function($model){
+                    $item = \common\models\User::find()->where(['id' => $model->user_id])->one();
+                    return $item->username;
+                }
+            ],
             'title',
-            'text:ntext',
-            'post_category_id',
-            'status',
+            'text:html',
+             [
+                'attribute'=>'post_category_id',
+                'value'=>function($model){
+                    $item = \common\models\PostCategory::find()->where(['id' => $model->post_category_id])->one();
+                    return $item->name;
+                }
+            ],
+            [
+                'attribute'=>'status',
+                'value'=>function($model){
+                    $item = new \common\models\Status();
+                    return $item->getStatusName($model->status);
+                }
+            ],
             'image',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

@@ -87,7 +87,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
+            ' ' => Yii::t('app', 'Password Hash'),
             'auth_source' => Yii::t('app', 'Auth Source'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
@@ -259,7 +259,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
         $user->created_at = $user->updated_at = time();
         $user->auth_key = Yii::$app->security->generateRandomString();
-        self::checkEmailIsChanged($user, $params);
+        //self::checkEmailIsChanged($user, $params);
         $user->last_login_at = time();
 
         if ($user->save()) {
@@ -315,5 +315,13 @@ class User extends ActiveRecord implements IdentityInterface
             $params['unconfirmed_email'] = $params['email'];
             unset($params['email']);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername($id): string
+    {
+        return $this->username;
     }
 }

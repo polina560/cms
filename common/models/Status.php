@@ -19,4 +19,16 @@ class Status
 
         return array( self::brandnew=>"Новый",  self::published=>"Опубликован", self::rejected=>"Отклонен");
     }
+
+
+    public function getStatusName($id)
+    {
+        if($id == self::brandnew)
+            return "Новый";
+        if($id == self::published)
+            return "Опубликован";
+        if($id == self::rejected)
+            return "Отклонен";
+    }
+
 }

@@ -13,4 +13,9 @@ return [
             'class' => FileCache::class,
         ],
     ],
+//    'modules' => [
+//        'redactor'=> 'yii\redactor\RedactorModule',
+//    ],
+//    'params' => $params,
 ];
+

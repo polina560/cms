@@ -78,7 +78,10 @@ class Post extends \yii\db\ActiveRecord
                 $item = new \common\models\Status();
                 return $item->getStatusName($model->status);
             },
-            'image',
+            'image' => function($model){
+                $public = Yii::getAlias('@public');
+                return $public . $model->image;
+            },
         ];
     }
 

@@ -170,6 +170,7 @@ return [
                 '<_m:[\w-]+>/<_c:[\w-]+>' => '<_m>/<_c>/index',                         // v1/user
                 '<_m:[\w-]+>/<_c:[\w-]+>/create' => '<_m>/<_c>/create-post',
                 '<_m:[\w-]+>/<_c:[\w-]+>/update' => '<_m>/<_c>/update-post',
+                '<_m:[\w-]+>/<_c:[\w-]+>/delete' => '<_m>/<_c>/delete-post',
                 '<_m:[\w-]+>/<_c:[\w-]+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',              // v1/user/login
                 '<_m:[\w-]+>/<_c:[\w-]+>/<id:\d+>/<_a:[\w-]+>' => '<_m>/<_c>/<_a>',     // v1/user/1/delete
 

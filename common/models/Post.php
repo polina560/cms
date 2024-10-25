@@ -68,6 +68,7 @@ class Post extends \yii\db\ActiveRecord
     public function fields()
     {
         return [
+            'id',
             'title',
             'text',
             'post_category_id' => function($model) {
@@ -79,7 +80,8 @@ class Post extends \yii\db\ActiveRecord
                 return $item->getStatusName($model->status);
             },
             'image' => function($model){
-                $public = Yii::getAlias('@public');
+                $public = Yii::$app->request->hostInfo;
+//                $public = Yii::getAlias('@public');
                 return $public . $model->image;
             },
         ];

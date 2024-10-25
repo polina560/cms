@@ -74,20 +74,15 @@ class PostController extends AppController
     public function actionCreatePost()
     {
 
-        $category_id = $this->getParameterFromRequest('category_id');
+        $category_id = (int)$this->getParameterFromRequest('category_id');
         $title = $this->getParameterFromRequest('title');
         $text = $this->getParameterFromRequest('text');
         $image = $this->getParameterFromRequest('image');
 
-        if ( !$category_id ) {
+        if ( empty($category_id) ) {
             return $this->returnError(['category_id' =>  'Поле category_id не заполнено или заполнено некорректно']);
         }
-        if ( !$title || !is_string($title)) {
-            return $this->returnError(['title' => 'Поле title не заполнено или заполнено некорректно']);
-        }
-        if ( !$text || !is_string($text)) {
-            return $this->returnError(['text' => 'Поле title не заполнено или заполнено некорректно']);
-        }
+       
 
         $post = new Post();
 
@@ -111,7 +106,7 @@ class PostController extends AppController
                 return $this->returnError(['image' => 'Поле заполнено не корректно']);
             }
 
-            $randomName = Yii::$app->security->generateRandomString(3);
+            $randomName = Yii::$app->security->generateRandomString(8);
 
             $public = Yii::getAlias('@public');
             $imagepath = '/uploads/' . $randomName . '.' . $type;
@@ -146,12 +141,12 @@ class PostController extends AppController
 //        $request =Yii::$app->request;
 //        $params = $request->get();
 
-        $id = $this->getParameterFromRequest('id');
-        $category_id = $this->getParameterFromRequest('category_id');
+        $id = (int)$this->getParameterFromRequest('id');
+        $category_id = (int)$this->getParameterFromRequest('category_id');
         $title = $this->getParameterFromRequest('title');
         $text = $this->getParameterFromRequest('text');
 
-        if ( !$id || is_int($id)) {
+        if ( empty($id) ) {
             return $this->returnError(['id' => 'Поле id не заполнено или заполнено некорректно']);
         }
 
@@ -167,28 +162,15 @@ class PostController extends AppController
             return  $this->returnError(['id' => 'Нет прав на редактирование']);
         }
 
-        if(!is_int($category_id) && $category_id){
+        if(empty($category_id)){
             return $this->returnError(['category_id' => 'Поле category_id заполнено некорректно']);
         }
-        else if($category_id != null) {
+        else {
             $post->load(['post_category_id'=> $category_id], '');
         }
 
-        if(!is_int($title) && $title){
-            return $this->returnError(['title' => 'Поле title заполнено некорректно']);
-        }
-        else if($title != null) {
-            $post->load(['title'=>$title],'');
-        }
 
-        if(!is_int($text) && $text){
-            return $this->returnError(['text' => 'Поле text заполнено некорректно']);
-        }
-        else if($text != null) {
-            $post->load(['text'=> $text],'');
-        }
-
-        if($post->validate()){
+        if($post->load(['title'=>$title, 'text'=> $text],'') && $post->validate()){
             $post->save();
             return $this->returnSuccess([
                 'posts' =>  $post]);
